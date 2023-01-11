@@ -1,15 +1,18 @@
+import random
+
 import pygame
 import math
 
 # Initialize pygame
 pygame.init()
 
+Width, Height = 400, 300
 # Set up the display
-screen = pygame.display.set_mode((400, 300))
+screen = pygame.display.set_mode((Width, Height))
 
 # Set up the ball
-ball_pos = [200, 150]
-ball_vel = [2, 2]
+ball_pos = [Width // 2, Height // 2]
+ball_vel = [0, 4]
 ball_size = 10
 ball_color = (0, 0, 0)
 ball_vel = [vel * 0.01 for vel in ball_vel]
@@ -41,10 +44,10 @@ class Paddle:
 blocks = []
 for i in range(6):
     for y in range(3):
-        blocks.append(Block([i * 70, y * 40], [60, 20], (0, 0, 255)))
+        blocks.append(Block([i * Width / 6, y * 40], [60, 20], (0, 0, 255)))
 
 # Set up the paddle
-paddle = Paddle([150, 280], [100, 20], (0, 0, 0))
+paddle = Paddle([Width // 2 - 50, Height - 20], [100, 20], (0, 0, 0))
 
 # Run the game loop
 running = True
@@ -57,19 +60,29 @@ while running:
     # Get keyboard input
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        paddle.pos[0] -= 0.01
+        paddle.pos[0] -= 0.02
     if keys[pygame.K_RIGHT]:
-        paddle.pos[0] += 0.01
+        paddle.pos[0] += 0.02
+
+    if detect_collision(ball_pos, ball_size, paddle.pos, paddle.size):
+        if abs(ball_vel[0]) < 0.005:
+            One_shot = False
+            ball_vel[0] = random.uniform(-0.02, 0.02)
+
 
     # Update game state
     ball_pos[0] += ball_vel[0]
     ball_pos[1] += ball_vel[1]
 
+
+
     # Check for wall collisions
-    if ball_pos[0] < 0 or ball_pos[0] > 400:
+    if ball_pos[0] < 0 or ball_pos[0] > Width:
         ball_vel[0] = -ball_vel[0]
-    if ball_pos[1] < 0 or ball_pos[1] > 300:
-        ball_vel[1] = -ball_vel[1]
+    if ball_pos[1] > Height:
+        ball_vel = [0, 0.04]
+        ball_pos = [Width // 2, Height // 2]
+        paddle.pos = [Width // 2 - 50, Height - 20]
 
     # Check for block or paddle collisions
     for i, block in enumerate(blocks):
