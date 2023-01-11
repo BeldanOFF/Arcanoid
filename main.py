@@ -1,4 +1,5 @@
 import pygame
+import math
 
 # Initialize pygame
 pygame.init()
@@ -13,6 +14,10 @@ ball_size = 10
 ball_color = (0, 0, 0)
 ball_vel = [vel * 0.01 for vel in ball_vel]
 
+# Set up the physical constants
+gravity = 0.01
+coefficient_of_friction = 0.1
+restitution = 0.8
 
 class Block:
     def __init__(self, pos, size, color):
@@ -20,13 +25,11 @@ class Block:
         self.size = size
         self.color = color
 
-
 def detect_collision(ball_pos, ball_size, block_pos, block_size):
     # Check if the ball is overlapping with the block or paddle
-    if ((ball_pos[0] + ball_size > block_pos[0] and ball_pos[0] < block_pos[0] + block_size[0]) and (ball_pos[1] + ball_size > block_pos[1] and ball_pos[1] < block_pos[1] + block_size[1])) or ((ball_pos[0] + ball_size > paddle.pos[0] and ball_pos[0] < paddle.pos[0] + paddle.size[0]) and (ball_pos[1] + ball_size > paddle.pos[1] and ball_pos[1] < paddle.pos[1] + paddle.size[1])):
+    if ((ball_pos[0] + ball_size > block_pos[0] and ball_pos[0] < block_pos[0] + block_size[0]) and (ball_pos[1] + ball_size > block_pos[1] and ball_pos[1] < block_pos[1] + block_size[1])):
         return True
     return False
-
 
 class Paddle:
     def __init__(self, pos, size, color):
@@ -34,11 +37,11 @@ class Paddle:
         self.size = size
         self.color = color
 
-
 # Set up the blocks
 blocks = []
-for i in range(5):
-    blocks.append(Block([i * 70, 0], [60, 20], (0, 0, 255)))
+for i in range(6):
+    for y in range(3):
+        blocks.append(Block([i * 70, y * 40], [60, 20], (0, 0, 255)))
 
 # Set up the paddle
 paddle = Paddle([150, 280], [100, 20], (0, 0, 0))
