@@ -5,6 +5,7 @@ import math
 import os
 import sys
 
+
 def main_menu():
     pygame.init()
     screen = pygame.display.set_mode((1000, 1000))
@@ -107,6 +108,7 @@ def main_menu():
 
         pygame.display.update()
 
+
 def game_1():
     # Initialize Pygame
     pygame.init()
@@ -116,6 +118,9 @@ def game_1():
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Doodle Jump Clone")
+
+    ARIAL_FONT_PATH = pygame.font.match_font('arial')
+    ARIAL_FONT_36 = pygame.font.Font(ARIAL_FONT_PATH, 36)
 
     # Loop until the user clicks the close button.
     done = False
@@ -219,7 +224,7 @@ def game_1():
     if xxx > 500:
         xxx -= 150
     elif 200 >= xxx:
-        xxx + 150
+        xxx += 150
 
     create_block(xxx, start_block_y - 150, 100, 20)
 
@@ -417,6 +422,15 @@ def game_1():
                 screen.blit(text1, (490, 50))
             elif len(texting) == 1:
                 screen.blit(text1, (500, 50))
+
+            with open('top_score_game1.txt', 'r') as f:
+                first_line = f.read()
+            if sumary > int(first_line):
+                new_data = first_line.replace(first_line, str(sumary))
+                with open('top_score_game1.txt', 'w') as f:
+                    f.write(new_data)
+            record_surface = ARIAL_FONT_36.render(f'record: {first_line}', True, (255, 255, 255))
+            screen.blit(record_surface, [650, 50])
         else:
             sumary = 0
             screen.fill((0, 0, 0))
@@ -434,6 +448,9 @@ def game_1():
 
 def game_2():
     pygame.init()
+
+    ARIAL_FONT_PATH = pygame.font.match_font('arial')
+    ARIAL_FONT_36 = pygame.font.Font(ARIAL_FONT_PATH, 36)
 
     size = (1000, 1000)
     screen = pygame.display.set_mode(size)
@@ -667,8 +684,7 @@ def game_2():
                           (255, 255, 255))
         text_over = f1.render(f'Game over PRESS any key to RESTART', True,
                               (255, 255, 255))
-        last = f1.render(f'RECORD: {max_last}', True,
-                         (255, 255, 255))
+
 
         # player
 
@@ -738,7 +754,6 @@ def game_2():
 
             for cact in cactuss:
                 screen.blit(cacts, (cact['x'], cact['y'] + cact['height']))
-
 
             pygame.draw.rect(screen, (0, 0, 0), (0, 699, 1000, 300))
             pygame.draw.rect(screen, (227, 198, 108), (0, 700, 1000, 300))
@@ -823,18 +838,14 @@ def game_2():
             elif len(texting) == 1:
                 screen.blit(text1, (90, 50))
 
-            if len(str_last) == 6:
-                screen.blit(last, (700, 50))
-            elif len(str_last) == 5:
-                screen.blit(last, (710, 50))
-            elif len(str_last) == 4:
-                screen.blit(last, (720, 50))
-            elif len(str_last) == 3:
-                screen.blit(last, (730, 50))
-            elif len(str_last) == 2:
-                screen.blit(last, (740, 50))
-            elif len(str_last) == 1:
-                screen.blit(last, (750, 50))
+            with open('top_score_game2.txt', 'r') as f:
+                first_line = f.read()
+            if max_last > int(first_line):
+                new_data = first_line.replace(first_line, str(max_last))
+                with open('top_score_game2.txt', 'w') as f:
+                    f.write(new_data)
+            record_surface = ARIAL_FONT_36.render(f'record: {first_line}', True, (255, 255, 255))
+            screen.blit(record_surface, [780, 50])
 
             for bir in birds:
                 screen.blit(goose, (bir['x'], bir['y']))
@@ -864,6 +875,8 @@ def game_3():
     player_speed_y = 0
     gravity = 0.25
     game_speed = -1.5
+    ARIAL_FONT_PATH = pygame.font.match_font('arial')
+    ARIAL_FONT_36 = pygame.font.Font(ARIAL_FONT_PATH, 36)
     game_over = False
 
     def load_image(name, colorkey=None):
@@ -968,6 +981,14 @@ def game_3():
             for trb in trubs:
                 screen.blit(trubi2, (trb['x'], trb['y1']))
                 screen.blit(trubi, (trb['x'], trb['y2']))
+            with open('top_score_game3.txt', 'r') as f:
+                first_line = f.read()
+            if summary > int(first_line):
+                new_data = first_line.replace(first_line, str(summary))
+                with open('top_score_game3.txt', 'w') as f:
+                    f.write(new_data)
+            record_surface = ARIAL_FONT_36.render(f'record: {first_line}', True, (0, 0, 0))
+            screen.blit(record_surface, [10, 30])
         else:
             screen.fill((0, 0, 0))
             screen.blit(text_over, (180, 480))
@@ -978,7 +999,6 @@ def game_3():
 
 
 def game_4():
-
     # Initialize pygame
     pygame.init()
 
@@ -1112,7 +1132,6 @@ def game_4():
 
 
 def game_5():
-
     pygame.init()
     pygame.font.init()
     clock = pygame.time.Clock()
@@ -1240,7 +1259,15 @@ def game_5():
                 screen.blit(bullet, (blt['x'], blt['y']))
             for en in enemys:
                 screen.blit(enemy_stone, (en['x'], en['y']))
+            with open('top_score_game5.txt', 'r') as f:
+                first_line = f.read()
+            if score > int(first_line):
+                new_data = first_line.replace(first_line, str(score))
+                with open('top_score_game5.txt', 'w') as f:
+                    f.write(new_data)
+            record_surface = ARIAL_FONT_64.render(f'record: {first_line}', True, (255, 255, 255))
             score_surface = ARIAL_FONT_64.render(f'score: {score}', True, (255, 255, 255))
+            screen.blit(record_surface, [700, 40])
             screen.blit(score_surface, [20, 20])
         else:
             retry_surface = ARIAL_FONT_64.render(f'Game Over. Your score: {score}', True, (255, 255, 255))
@@ -1251,7 +1278,6 @@ def game_5():
 
 
 def game_6():
-
     WIDTH, HEIGHT = 1000, 1000
     SIZE = WIDTH, HEIGHT
     FPS = 60
@@ -1417,7 +1443,15 @@ def game_6():
 
             for en in enemys:
                 screen.blit(enemy_car, (en['x'], en['y']))
+            with open('top_score_game6.txt', 'r') as f:
+                first_line = f.read()
+            if score > int(first_line):
+                new_data = first_line.replace(first_line, str(score))
+                with open('top_score_game6.txt', 'w') as f:
+                    f.write(new_data)
+            record_surface = ARIAL_FONT_64.render(f'record: {first_line}', True, (255, 255, 255))
             score_surface = ARIAL_FONT_64.render(f'SCORE: {score}', True, (255, 255, 255))
+            screen.blit(record_surface, [700, 20])
             screen.blit(score_surface, [20, 20])
         else:
             retry_surface = ARIAL_FONT_64.render('GAME OVER. Press R to restart', True, (255, 0, 255))
